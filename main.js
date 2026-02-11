@@ -13,7 +13,7 @@ downloadBtn.addEventListener('click', () => {
     }
 
     // Per user request, redirect to the external downloader service
-    window.open('https://indown.io/reels/ko', '_blank');
+    window.location.href = 'https://indown.io/reels/ko';
 });
 
 function validateUrl(url) {
