@@ -4,13 +4,240 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>InstaRally - 인스타그램 다운로더</title>
+    <title>InstaRally - 인스타그램 다운로더 (v1.2)</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Inter:wght@400;600&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="./style.css">
-    <meta name="description" content="인스타그램 사진, 동영상, 릴스를 쉽고 빠르게 다운로드하세요. InstaRally와 함께라면 클릭 한 번으로 충분합니다.">
+    <meta name="description" content="인스타그램 사진, 동영상, 릴스를 쉽고 빠르게 다운로더하세요. InstaRally와 함께라면 클릭 한 번으로 충분합니다.">
+    <style>
+        :root {
+            --primary-bg: #0f0a1e;
+            --accent-1: #ff0080;
+            --accent-2: #ff8c00;
+            --accent-3: #7928ca;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-main: #ffffff;
+            --text-muted: rgba(255, 255, 255, 0.6);
+            --font-family: 'Outfit', 'Inter', system-ui, -apple-system, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background: var(--primary-bg);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .bg-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at 0% 0%, var(--accent-3) 0%, transparent 50%),
+                radial-gradient(circle at 100% 100%, var(--accent-1) 0%, transparent 50%),
+                radial-gradient(circle at 100% 0%, var(--accent-2) 0%, transparent 50%);
+            filter: blur(80px);
+            opacity: 0.4;
+            animation: bgMove 20s ease-in-out infinite alternate;
+        }
+
+        @keyframes bgMove {
+            0% {
+                transform: scale(1) translate(0, 0);
+            }
+
+            50% {
+                transform: scale(1.1) translate(-5%, 5%);
+            }
+
+            100% {
+                transform: scale(1.2) translate(5%, -5%);
+            }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            width: 100%;
+        }
+
+        header {
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, var(--accent-1), var(--accent-2));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -1px;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding-bottom: 4rem;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 3rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .hero-illustration {
+            margin-bottom: 1rem;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-15px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.1;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+        }
+
+        .search-container {
+            width: 100%;
+            max-width: 800px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 8px;
+            display: flex;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .search-container:focus-within {
+            transform: translateY(-2px);
+            box-shadow: 0 30px 60px -12px rgba(255, 0, 128, 0.15);
+            border-color: rgba(255, 0, 128, 0.3);
+        }
+
+        .search-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            padding: 1.5rem 2rem;
+            color: white;
+            font-size: 1.125rem;
+            outline: none;
+            width: 100%;
+        }
+
+        .search-input::placeholder {
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .download-btn {
+            background: linear-gradient(45deg, var(--accent-1), var(--accent-2));
+            color: white;
+            border: none;
+            border-radius: 18px;
+            padding: 0 2.5rem;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: filter 0.2s ease;
+        }
+
+        .download-btn:hover {
+            filter: brightness(1.1);
+        }
+
+        .features {
+            display: flex;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .feature-item svg {
+            width: 20px;
+            height: 20px;
+            stroke: var(--accent-1);
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .search-container {
+                flex-direction: column;
+                border-radius: 16px;
+                padding: 12px;
+            }
+
+            .download-btn {
+                padding: 1rem;
+            }
+
+            .features {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -24,25 +251,20 @@
         <main>
             <section class="hero">
                 <div class="hero-illustration">
-                    <!-- Premium Instagram-inspired Illustration SVG -->
                     <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect x="10" y="10" width="100" height="100" rx="25" stroke="url(#paint0_linear)"
-                            stroke-width="8" />
-                        <circle cx="60" cy="60" r="22" stroke="url(#paint1_linear)" stroke-width="8" />
-                        <circle cx="90" cy="30" r="6" fill="url(#paint2_linear)" />
+                        <rect x="10" y="10" width="100" height="100" rx="25" stroke="url(#p0)" stroke-width="8" />
+                        <circle cx="60" cy="60" r="22" stroke="url(#p1)" stroke-width="8" />
+                        <circle cx="90" cy="30" r="6" fill="url(#p2)" />
                         <defs>
-                            <linearGradient id="paint0_linear" x1="10" y1="10" x2="110" y2="110"
-                                gradientUnits="userSpaceOnUse">
+                            <linearGradient id="p0" x1="10" y1="10" x2="110" y2="110" gradientUnits="userSpaceOnUse">
                                 <stop stop-color="#FF0080" />
                                 <stop offset="1" stop-color="#FF8C00" />
                             </linearGradient>
-                            <linearGradient id="paint1_linear" x1="38" y1="38" x2="82" y2="82"
-                                gradientUnits="userSpaceOnUse">
+                            <linearGradient id="p1" x1="38" y1="38" x2="82" y2="82" gradientUnits="userSpaceOnUse">
                                 <stop stop-color="#FF0080" />
                                 <stop offset="1" stop-color="#FF8C00" />
                             </linearGradient>
-                            <linearGradient id="paint2_linear" x1="84" y1="24" x2="96" y2="36"
-                                gradientUnits="userSpaceOnUse">
+                            <linearGradient id="p2" x1="84" y1="24" x2="96" y2="36" gradientUnits="userSpaceOnUse">
                                 <stop stop-color="#FF0080" />
                                 <stop offset="1" stop-color="#FF8C00" />
                             </linearGradient>
@@ -50,16 +272,13 @@
                     </svg>
                 </div>
                 <h1>인스타그램 고화질<br>미디어 다운로더</h1>
-                <p>릴스, 사진, 동영상을 쉽고 빠르게 저장하세요.</p>
+                <p>릴스, 사진, 동영상을 쉽고 빠르게 저장하세요. (v1.2)</p>
             </section>
 
             <div class="search-container">
                 <input type="text" id="url-input" class="search-input" placeholder="여기에 인스타그램 링크를 붙여넣으세요..."
                     autocomplete="off">
-                <button id="download-trigger" class="download-btn">
-                    <span class="btn-text">다운로드</span>
-                    <div class="loader" id="main-loader"></div>
-                </button>
+                <button id="download-trigger" class="download-btn">다운로드</button>
             </div>
 
             <div class="features">
@@ -88,10 +307,6 @@
                     <span>릴스</span>
                 </div>
             </div>
-
-            <section id="result">
-                <!-- Result card will be injected here -->
-            </section>
         </main>
 
         <footer>
@@ -99,7 +314,19 @@
         </footer>
     </div>
 
-    <script type="module" src="./main.js"></script>
+    <script>
+        const urlInput = document.getElementById('url-input');
+        const downloadBtn = document.getElementById('download-trigger');
+
+        downloadBtn.addEventListener('click', () => {
+            const url = urlInput.value.trim();
+            if (!url.includes('instagram.com/')) {
+                alert('올바른 인스타그램 주소를 입력해주세요.');
+                return;
+            }
+            window.location.href = 'https://indown.io/reels/ko';
+        });
+    </script>
 </body>
 
 </html>
