@@ -4,30 +4,16 @@ const btnText = downloadBtn.querySelector('.btn-text');
 const loader = document.getElementById('main-loader');
 const resultSection = document.getElementById('result');
 
-downloadBtn.addEventListener('click', async () => {
+downloadBtn.addEventListener('click', () => {
     const url = urlInput.value.trim();
-    
+
     if (!validateUrl(url)) {
         alert('올바른 인스타그램 주소를 입력해주세요.');
         return;
     }
 
-    setLoading(true);
-
-    try {
-        // Since Instagram fetching often requires a proxy or backend, 
-        // we will simulate the process for the UI demonstration 
-        // but include the logic structure for a real API call.
-        
-        const mediaData = await fetchMediaData(url);
-        renderResult(mediaData);
-        
-    } catch (error) {
-        console.error('Error:', error);
-        alert('미디어를 가져오는데 실패했습니다. 비공개 계정이거나 잘못된 링크일 수 있습니다.');
-    } finally {
-        setLoading(false);
-    }
+    // Per user request, redirect to the external downloader service
+    window.open('https://indown.io/reels/ko', '_blank');
 });
 
 function validateUrl(url) {
@@ -78,7 +64,7 @@ function renderResult(data) {
         </div>
     `;
     resultSection.style.display = 'block';
-    
+
     // Smooth scroll to result
     resultSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
